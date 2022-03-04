@@ -1,21 +1,21 @@
-// To parse this JSON data, do
+// To parse required this JSON data, do
 //
-//     final expensesModel = expensesModelFromJson(jsonString);
+//     final todoModel = todoModelFromJson(jsonString);
 
 import 'dart:convert';
 
-ExpensesModel expensesModelFromJson(String str) => ExpensesModel.fromJson(json.decode(str));
+TodoModel todoModelFromJson(String str) => TodoModel.fromJson(json.decode(str));
 
-String expensesModelToJson(ExpensesModel data) => json.encode(data.toJson());
+String todoModelToJson(TodoModel data) => json.encode(data.toJson());
 
-class ExpensesModel {
-  ExpensesModel({
+class TodoModel {
+  TodoModel({
     required this.data,
   });
 
   List<Datum> data;
 
-  factory ExpensesModel.fromJson(Map<String, dynamic> json) => ExpensesModel(
+  factory TodoModel.fromJson(Map<String, dynamic> json) => TodoModel(
         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
       );
 

@@ -4,6 +4,7 @@ import 'package:expensive_app/model/category_mode.dart';
 import 'package:expensive_app/model/expense_model.dart';
 import 'package:expensive_app/model/income_model.dart';
 import 'package:expensive_app/model/sub_category_mode.dart';
+import 'package:expensive_app/model/todo_model.dart';
 import 'package:expensive_app/model/transaction_model.dart';
 import 'package:expensive_app/view/home.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class RemoteService {
   static var client = http.Client();
-  static var baseURL = "http://192.168.0.109:8000/api";
+  static var baseURL = "http://192.168.0.101:8000/api";
   //Register User
   static Future register(Map data) async {
     try {
@@ -156,6 +157,23 @@ class RemoteService {
       if (response.statusCode == 200) {
         var jsonString = response.body;
         return expensesModelFromJson(jsonString);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      Get.snackbar("Error", 'No Internet Connection');
+    }
+  }
+
+  //Fetch Todos
+  static Future<TodoModel?> fetchTodos() async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var token = preferences.getString("token");
+      var response = await client.get(Uri.parse("$baseURL/todo"), headers: {'Authorization': 'Bearer $token'});
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+        return todoModelFromJson(jsonString);
       } else {
         return null;
       }

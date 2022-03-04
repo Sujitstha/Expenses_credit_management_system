@@ -1,5 +1,6 @@
 import 'package:expensive_app/controller/expense_controller.dart';
 import 'package:expensive_app/controller/income_controller.dart';
+import 'package:expensive_app/controller/todo_controller.dart';
 import 'package:expensive_app/view/expenses_list.dart';
 import 'package:expensive_app/view/income_list.dart';
 import 'package:expensive_app/view/todo.dart';
@@ -15,6 +16,7 @@ class MyDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     var incomeController = Get.find<IncomeController>();
     var expensesController = Get.find<ExpenseController>();
+    var todoController = Get.find<TodoController>();
     return Drawer(
       child: ListView(
         children: [
@@ -39,6 +41,7 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
+              todoController.getTodos();
               Navigator.pop(context);
               Get.to(() => const TodoView());
             },
