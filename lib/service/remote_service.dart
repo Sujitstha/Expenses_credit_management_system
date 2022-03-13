@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:expensive_app/model/category_mode.dart';
 import 'package:expensive_app/model/expense_model.dart';
 import 'package:expensive_app/model/income_model.dart';
+import 'package:expensive_app/model/loan_model.dart';
 import 'package:expensive_app/model/sub_category_mode.dart';
 import 'package:expensive_app/model/todo_model.dart';
 import 'package:expensive_app/model/transaction_model.dart';
@@ -95,6 +96,38 @@ class RemoteService {
       }
     } catch (e) {
       Get.snackbar("Error", "No Internet Connection");
+    }
+  }
+
+  //Add Loan
+  static Future addLoan(Map data) async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var token = preferences.getString("token");
+      var response = await client.post(Uri.parse("$baseURL/loan"),
+          headers: {'Content-type': 'application/json', 'Authorization': 'Bearer $token'}, body: jsonEncode(data));
+      print(response.body);
+      if (response.statusCode == 200) {
+        Get.snackbar("Success", "Record Saved Successfully");
+      }
+    } catch (e) {
+      Get.snackbar("Error", "No Internet Connection");
+    }
+  }
+
+  static Future<List<LoanModel>?> fetchLoan() async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var token = preferences.getString("token");
+      var response = await client.get(Uri.parse("$baseURL/loan"), headers: {'Authorization': 'Bearer $token'});
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+        return loanModelFromJson(jsonString);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      Get.snackbar("Error", 'No Internet Connection');
     }
   }
 

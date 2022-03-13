@@ -1,8 +1,10 @@
 import 'package:expensive_app/controller/expense_controller.dart';
 import 'package:expensive_app/controller/income_controller.dart';
+import 'package:expensive_app/controller/loan_controller.dart';
 import 'package:expensive_app/controller/todo_controller.dart';
 import 'package:expensive_app/view/expenses_list.dart';
 import 'package:expensive_app/view/income_list.dart';
+import 'package:expensive_app/view/loan.dart';
 import 'package:expensive_app/view/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,6 +19,7 @@ class MyDrawer extends StatelessWidget {
     var incomeController = Get.find<IncomeController>();
     var expensesController = Get.find<ExpenseController>();
     var todoController = Get.find<TodoController>();
+    var loanController = Get.find<LoanController>();
     return Drawer(
       child: ListView(
         children: [
@@ -52,7 +55,10 @@ class MyDrawer extends StatelessWidget {
             title: const Text("Todo"),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              loanController.getLoans();
+              Get.to(() => const LoanView());
+            },
             leading: const Icon(
               Icons.attach_money_outlined,
               color: Colors.green,
@@ -88,14 +94,6 @@ class MyDrawer extends StatelessWidget {
               color: Colors.red,
             ),
             title: const Text("Expensive Details"),
-          ),
-          ListTile(
-            onTap: () {},
-            leading: const Icon(
-              Icons.monetization_on_rounded,
-              color: Colors.amber,
-            ),
-            title: const Text("Loan Report"),
           ),
           ListTile(
             title: Text(
