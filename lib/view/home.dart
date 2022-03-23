@@ -1,4 +1,5 @@
 import 'package:expensive_app/controller/category_controller.dart';
+import 'package:expensive_app/controller/loan_controller.dart';
 import 'package:expensive_app/controller/transaction_controller.dart';
 import 'package:expensive_app/settings/app_size.dart';
 import 'package:expensive_app/view/add_transaction.dart';
@@ -13,6 +14,8 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     var categoryController = Get.find<CategoryController>();
     var transactionController = Get.find<TransactionController>();
+    var loanController = Get.find<LoanController>();
+    loanController.getLoans();
     transactionController.getTransaction();
     return SafeArea(
       child: Scaffold(
@@ -109,6 +112,41 @@ class HomeView extends StatelessWidget {
                                 ],
                               )),
                         );
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        "Loan History",
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                    ),
+
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: loanController.loans.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                            elevation: .2,
+                            child: ListTile(
+                              title: Text(
+                                loanController.loans[index].name,
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    loanController.loans[index].address,
+                                    style: Theme.of(context).textTheme.caption,
+                                  ),
+                                  Text(
+                                    loanController.loans[index].mobile,
+                                    style: Theme.of(context).textTheme.caption,
+                                  ),
+                                ],
+                              ),
+                              trailing: Text(loanController.loans[index].amount),
+                            ));
                       },
                     )
                   ],
