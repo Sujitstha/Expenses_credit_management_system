@@ -24,10 +24,18 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("Expensive Management System"),
+    return Scaffold(
+        body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            "images/icon.png",
+            width: Get.size.width * .30,
+          ),
+          const Text("Expanses Management System")
+        ],
       ),
-    );
+    ));
   }
 }
