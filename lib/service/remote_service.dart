@@ -6,6 +6,8 @@ import 'package:expensive_app/model/income_model.dart';
 import 'package:expensive_app/model/loan_model.dart';
 import 'package:expensive_app/model/sub_category_mode.dart';
 import 'package:expensive_app/model/todo_model.dart';
+import 'package:expensive_app/model/total_expanses_model.dart';
+import 'package:expensive_app/model/total_income_model.dart';
 import 'package:expensive_app/model/transaction_model.dart';
 import 'package:expensive_app/view/home.dart';
 import 'package:get/get.dart';
@@ -14,7 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class RemoteService {
   static var client = http.Client();
-  static var baseURL = "http://192.168.0.119:8000/api";
+  static var baseURL = "http://192.168.0.101:8000/api";
   //Register User
   static Future register(Map data) async {
     try {
@@ -181,6 +183,23 @@ class RemoteService {
     }
   }
 
+  //Fetch Total Income
+  static Future<TotalIncomeModel?> fetchTotalIncome() async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var token = preferences.getString("token");
+      var response = await client.get(Uri.parse("$baseURL/totalIncome"), headers: {'Authorization': 'Bearer $token'});
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+        return totalIncomeModelFromJson(jsonString);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      Get.snackbar("Error", 'No Internet Connection');
+    }
+  }
+
   //Fetch Expenses
   static Future<ExpensesModel?> fetchExpenses() async {
     try {
@@ -190,6 +209,23 @@ class RemoteService {
       if (response.statusCode == 200) {
         var jsonString = response.body;
         return expensesModelFromJson(jsonString);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      Get.snackbar("Error", 'No Internet Connection');
+    }
+  }
+
+  //Fetch Total Expanses
+  static Future<TotalExpensesModel?> fetchTotalExpanses() async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var token = preferences.getString("token");
+      var response = await client.get(Uri.parse("$baseURL/totalExpanses"), headers: {'Authorization': 'Bearer $token'});
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+        return totalExpensesModelFromJson(jsonString);
       } else {
         return null;
       }

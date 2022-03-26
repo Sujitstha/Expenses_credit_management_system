@@ -1,4 +1,7 @@
+import 'package:d_chart/d_chart.dart';
 import 'package:expensive_app/controller/category_controller.dart';
+import 'package:expensive_app/controller/expense_controller.dart';
+import 'package:expensive_app/controller/income_controller.dart';
 import 'package:expensive_app/controller/loan_controller.dart';
 import 'package:expensive_app/controller/transaction_controller.dart';
 import 'package:expensive_app/settings/app_size.dart';
@@ -15,8 +18,12 @@ class HomeView extends StatelessWidget {
     var categoryController = Get.find<CategoryController>();
     var transactionController = Get.find<TransactionController>();
     var loanController = Get.find<LoanController>();
+    var incomeController = Get.find<IncomeController>();
+    var expansesController = Get.find<ExpenseController>();
     loanController.getLoans();
     transactionController.getTransaction();
+    incomeController.getTotalIncome();
+    expansesController.getTotalExpanses();
     return SafeArea(
       child: Scaffold(
           floatingActionButton: FloatingActionButton(
@@ -39,8 +46,84 @@ class HomeView extends StatelessWidget {
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    // Chart
-
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(color: Colors.red.shade200),
+                                child: Column(
+                                  children: [
+                                    const Text(
+                                      "Total Expanses",
+                                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.black),
+                                    ),
+                                    Text(
+                                      "Rs.${expansesController.totalExpanses.value.totalExpenses}",
+                                      style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(color: Colors.green.shade200),
+                                child: Column(
+                                  children: [
+                                    const Text(
+                                      "Total Income",
+                                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.black),
+                                    ),
+                                    Text(
+                                      "Rs.${incomeController.totalIncome.value.totalIncome}",
+                                      style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: DChartBar(
+                          data: [
+                            {
+                              'id': 'Bar',
+                              'data': [
+                                {'domain': 'Income', 'measure': incomeController.totalIncome.value.totalIncome},
+                                {'domain': 'Expenses', 'measure': expansesController.totalExpanses.value.totalExpenses},
+                              ],
+                            },
+                          ],
+                          domainLabelPaddingToAxisLine: 16,
+                          axisLineTick: 2,
+                          axisLinePointTick: 2,
+                          axisLinePointWidth: 10,
+                          axisLineColor: Colors.red,
+                          measureLabelPaddingToAxisLine: 16,
+                          barColor: (barData, index, id) => Colors.green,
+                          showBarValue: true,
+                          animate: true,
+                        ),
+                      ),
+                    ),
                     ListTile(
                       title: Text(
                         "Recent Transaction",
@@ -120,7 +203,6 @@ class HomeView extends StatelessWidget {
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
-
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),

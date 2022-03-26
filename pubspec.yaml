@@ -39,6 +39,7 @@ dependencies:
   shared_preferences: ^2.0.13
   fl_chart: ^0.45.1
   flutter_slidable: ^1.2.0
+  d_chart: ^0.0.4
 
 dev_dependencies:
   flutter_test:
