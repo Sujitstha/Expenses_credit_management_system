@@ -63,7 +63,7 @@ class MyDrawer extends StatelessWidget {
               Icons.attach_money_outlined,
               color: Colors.green,
             ),
-            title: const Text("Loan"),
+            title: const Text("Credit"),
           ),
           ListTile(
             title: Text(

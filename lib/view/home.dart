@@ -199,7 +199,7 @@ class HomeView extends StatelessWidget {
                     ),
                     ListTile(
                       title: Text(
-                        "Loan History",
+                        "Credit History",
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ),

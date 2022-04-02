@@ -4,14 +4,32 @@ import 'package:expensive_app/view/loan.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoanTransactionView extends StatefulWidget {
-  const LoanTransactionView({Key? key}) : super(key: key);
+class LoanEditView extends StatefulWidget {
+  final int id;
+  final String name;
+  final String address;
+  final String mobile;
+  final String purpose;
+  final String amount;
+  final String date;
+  final String remarks;
+  const LoanEditView(
+      {Key? key,
+      required this.id,
+      required this.name,
+      required this.address,
+      required this.mobile,
+      required this.purpose,
+      required this.amount,
+      required this.date,
+      required this.remarks})
+      : super(key: key);
 
   @override
-  State<LoanTransactionView> createState() => _LoanTransactionViewState();
+  State<LoanEditView> createState() => _LoanEditViewState();
 }
 
-class _LoanTransactionViewState extends State<LoanTransactionView> {
+class _LoanEditViewState extends State<LoanEditView> {
   TextEditingController name = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController mobile = TextEditingController();
@@ -21,6 +39,19 @@ class _LoanTransactionViewState extends State<LoanTransactionView> {
   TextEditingController remarks = TextEditingController();
 
   GlobalKey<FormState> key = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    name.text = widget.name;
+    address.text = widget.address;
+    mobile.text = widget.mobile;
+    purpose.text = widget.purpose;
+    amount.text = widget.amount;
+    date.text = widget.date.toString().substring(0, 10);
+    remarks.text = widget.name;
+    setState(() {});
+  }
 
   DateTime selectedDate = DateTime.now();
   _selectDate(BuildContext context) async {
@@ -44,7 +75,7 @@ class _LoanTransactionViewState extends State<LoanTransactionView> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Credit Transaction"),
+          title: const Text("Credit Transaction Edit"),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -171,8 +202,7 @@ class _LoanTransactionViewState extends State<LoanTransactionView> {
                                 'due_date': date.text,
                                 'remarks': remarks.text,
                               };
-                              print("sajal");
-                              RemoteService.addLoan(data).whenComplete(() {
+                              RemoteService.updateLoadn(data, widget.id).whenComplete(() {
                                 loanController.getLoans();
                                 Get.off(() => const LoanView());
                               });

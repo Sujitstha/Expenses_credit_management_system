@@ -1,4 +1,6 @@
 import 'package:expensive_app/controller/loan_controller.dart';
+import 'package:expensive_app/service/remote_service.dart';
+import 'package:expensive_app/view/loan_edit.dart';
 import 'package:expensive_app/view/loan_transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,7 +20,7 @@ class LoanView extends StatelessWidget {
           child: const Icon(Icons.add),
         ),
         appBar: AppBar(
-          title: const Text("Loan"),
+          title: const Text("Credit List"),
         ),
         body: Obx(() {
           if (loanController.isLoading.value == true) {
@@ -52,6 +54,37 @@ class LoanView extends StatelessWidget {
                                     children: [
                                       Text(mydata.address),
                                       Text(mydata.mobile),
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                Get.to(() => LoanEditView(
+                                                      id: mydata.id,
+                                                      name: mydata.name,
+                                                      address: mydata.address,
+                                                      mobile: mydata.mobile,
+                                                      purpose: mydata.purpose,
+                                                      date: mydata.dueDate.toString(),
+                                                      remarks: mydata.remarks,
+                                                      amount: mydata.amount,
+                                                    ));
+                                              },
+                                              icon: const Icon(
+                                                Icons.edit,
+                                                color: Colors.blue,
+                                              )),
+                                          IconButton(
+                                              onPressed: () {
+                                                RemoteService.deleteLoan(mydata.id).whenComplete(() {
+                                                  loanController.getLoans();
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Colors.red,
+                                              ))
+                                        ],
+                                      )
                                     ],
                                   ),
                                 ),
