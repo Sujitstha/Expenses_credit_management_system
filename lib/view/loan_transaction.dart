@@ -149,7 +149,7 @@ class _LoanTransactionViewState extends State<LoanTransactionView> {
                       contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     ),
                     validator: (value) => value!.isEmpty ? 'required' : null,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     maxLines: 4,
                   ),
                   const SizedBox(

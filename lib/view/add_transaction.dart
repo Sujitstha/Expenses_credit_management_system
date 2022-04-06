@@ -115,7 +115,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                         TextFormField(
                           controller: amount,
                           decoration: const InputDecoration(hintText: 'Amount', border: OutlineInputBorder(), contentPadding: EdgeInsets.all(5)),
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.number,
                           validator: (value) => value!.isEmpty ? 'required' : null,
                         ),
                         const SizedBox(height: 10),
