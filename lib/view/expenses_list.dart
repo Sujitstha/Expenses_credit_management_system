@@ -55,6 +55,10 @@ class ExpensesListView extends StatelessWidget {
                                             mydata.category,
                                             style: Theme.of(context).textTheme.caption,
                                           ),
+                                          Text(
+                                            mydata.remarks,
+                                            style: Theme.of(context).textTheme.caption,
+                                          ),
                                           const SizedBox(
                                             height: 10,
                                           ),
