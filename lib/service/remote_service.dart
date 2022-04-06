@@ -133,6 +133,40 @@ class RemoteService {
     }
   }
 
+  //Update Transaction
+  static Future updateTransaction(Map data, int id) async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var token = preferences.getString("token");
+      var response = await client.put(Uri.parse("$baseURL/transaction/$id"),
+          headers: {'Content-type': 'application/json', 'Authorization': 'Bearer $token'}, body: jsonEncode(data));
+      print(response.body);
+      if (response.statusCode == 200) {
+        Get.snackbar("Success", "Record Updated Successfully");
+      }
+    } catch (e) {
+      Get.snackbar("Error", "No Internet Connection");
+    }
+  }
+
+//Delete Transaction
+  static Future deleteTransaction(int id) async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var token = preferences.getString("token");
+      var response = await client.delete(
+        Uri.parse("$baseURL/transaction/$id"),
+        headers: {'Content-type': 'application/json', 'Authorization': 'Bearer $token'},
+      );
+      print(response.body);
+      if (response.statusCode == 200) {
+        Get.snackbar("Success", "Record Deleted Successfully");
+      }
+    } catch (e) {
+      Get.snackbar("Error", "No Internet Connection");
+    }
+  }
+
   static Future deleteLoan(int id) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -143,7 +177,7 @@ class RemoteService {
       );
       print(response.body);
       if (response.statusCode == 200) {
-        Get.snackbar("Success", "Record Updated Successfully");
+        Get.snackbar("Success", "Record Deleted Successfully");
       }
     } catch (e) {
       Get.snackbar("Error", "No Internet Connection");

@@ -1,6 +1,8 @@
 import 'package:expensive_app/controller/income_controller.dart';
+import 'package:expensive_app/service/remote_service.dart';
 import 'package:expensive_app/settings/app_size.dart';
 import 'package:expensive_app/view/add_transaction.dart';
+import 'package:expensive_app/view/edit_transaction.dart';
 import 'package:expensive_app/widget/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -57,6 +59,10 @@ class IncomListView extends StatelessWidget {
                                             mydata.category,
                                             style: Theme.of(context).textTheme.caption,
                                           ),
+                                          Text(
+                                            mydata.remarks,
+                                            style: Theme.of(context).textTheme.caption,
+                                          ),
                                           const SizedBox(
                                             height: 10,
                                           ),
@@ -64,6 +70,31 @@ class IncomListView extends StatelessWidget {
                                             "${mydata.date}".substring(0, 10),
                                             style: Theme.of(context).textTheme.caption,
                                           ),
+                                          Row(
+                                            children: [
+                                              IconButton(
+                                                  onPressed: () {
+                                                    Get.to(() => EditTransaction(
+                                                        transactionId: mydata.id,
+                                                        date: mydata.date.toString(),
+                                                        category_id: mydata.categoryId,
+                                                        subcategory_id: mydata.subcategoryId,
+                                                        amount: mydata.amount.toString(),
+                                                        remarks: mydata.remarks));
+                                                  },
+                                                  icon: const Icon(Icons.edit)),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    RemoteService.deleteTransaction(mydata.id).whenComplete(() {
+                                                      incomController.getIncomeList();
+                                                    });
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.delete,
+                                                    color: Colors.red,
+                                                  )),
+                                            ],
+                                          )
                                         ],
                                       ),
                                     ),
