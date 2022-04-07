@@ -24,6 +24,8 @@ class HomeView extends StatelessWidget {
     transactionController.getTransaction();
     incomeController.getTotalIncome();
     expansesController.getTotalExpanses();
+    incomeController.getIncomeList();
+    expansesController.getExpensesList();
     return SafeArea(
       child: Scaffold(
           floatingActionButton: FloatingActionButton(
