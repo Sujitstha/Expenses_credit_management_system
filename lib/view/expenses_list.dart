@@ -1,5 +1,7 @@
 import 'package:expensive_app/controller/expense_controller.dart';
+import 'package:expensive_app/service/remote_service.dart';
 import 'package:expensive_app/settings/app_size.dart';
+import 'package:expensive_app/view/edit_transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -66,6 +68,31 @@ class ExpensesListView extends StatelessWidget {
                                             "${mydata.date}".substring(0, 10),
                                             style: Theme.of(context).textTheme.caption,
                                           ),
+                                          Row(
+                                            children: [
+                                              IconButton(
+                                                  onPressed: () {
+                                                    Get.to(() => EditTransaction(
+                                                        transactionId: mydata.id,
+                                                        date: mydata.date.toString(),
+                                                        category_id: mydata.categoryId,
+                                                        subcategory_id: mydata.subcategoryId,
+                                                        amount: mydata.amount.toString(),
+                                                        remarks: mydata.remarks));
+                                                  },
+                                                  icon: const Icon(Icons.edit)),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    RemoteService.deleteTransaction(mydata.id).whenComplete(() {
+                                                      expensesController.getExpensesList();
+                                                    });
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.delete,
+                                                    color: Colors.red,
+                                                  )),
+                                            ],
+                                          )
                                         ],
                                       ),
                                     ),
