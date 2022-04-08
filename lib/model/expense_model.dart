@@ -28,7 +28,9 @@ class Datum {
   Datum({
     required this.id,
     required this.date,
+    required this.categoryId,
     required this.category,
+    required this.subcategoryId,
     required this.subcategory,
     required this.amount,
     required this.remarks,
@@ -36,7 +38,9 @@ class Datum {
 
   int id;
   DateTime date;
+  int categoryId;
   String category;
+  int subcategoryId;
   String subcategory;
   int amount;
   String remarks;
@@ -44,7 +48,9 @@ class Datum {
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         date: DateTime.parse(json["date"]),
+        categoryId: json["category_id"],
         category: json["category"],
+        subcategoryId: json["subcategory_id"],
         subcategory: json["subcategory"],
         amount: json["amount"],
         remarks: json["remarks"],
@@ -53,7 +59,9 @@ class Datum {
   Map<String, dynamic> toJson() => {
         "id": id,
         "date": "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+        "category_id": categoryId,
         "category": category,
+        "subcategory_id": subcategoryId,
         "subcategory": subcategory,
         "amount": amount,
         "remarks": remarks,

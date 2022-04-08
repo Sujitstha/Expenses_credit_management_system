@@ -1,7 +1,7 @@
 import 'package:expensive_app/controller/category_controller.dart';
+import 'package:expensive_app/controller/expense_controller.dart';
 import 'package:expensive_app/controller/income_controller.dart';
 import 'package:expensive_app/controller/sub_category_controller.dart';
-import 'package:expensive_app/controller/transaction_controller.dart';
 import 'package:expensive_app/service/remote_service.dart';
 import 'package:expensive_app/settings/app_size.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +71,7 @@ class _EditTransactionState extends State<EditTransaction> {
     var categoryController = Get.find<CategoryController>();
     var subCategoryController = Get.find<SubCategoryController>();
     var incomeController = Get.find<IncomeController>();
+    var expenseController = Get.find<ExpenseController>();
     categoryController.getCategories();
     return SafeArea(
       child: Scaffold(
@@ -188,6 +189,7 @@ class _EditTransactionState extends State<EditTransaction> {
                                       amount.clear();
                                       remarks.clear();
                                       incomeController.getIncomeList();
+                                      expenseController.getExpensesList();
                                     });
                                   }
                                 },
