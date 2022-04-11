@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+import 'package:expensive_app/model/about_mode.dart';
 import 'package:expensive_app/model/category_mode.dart';
+import 'package:expensive_app/model/condition_model.dart';
 import 'package:expensive_app/model/expense_model.dart';
 import 'package:expensive_app/model/income_model.dart';
 import 'package:expensive_app/model/loan_model.dart';
+import 'package:expensive_app/model/privacy_model.dart';
 import 'package:expensive_app/model/sub_category_mode.dart';
 import 'package:expensive_app/model/todo_model.dart';
 import 'package:expensive_app/model/total_expanses_model.dart';
@@ -16,7 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class RemoteService {
   static var client = http.Client();
-  static var baseURL = "http://192.168.0.111:8000/api";
+  static var baseURL = "http://192.168.0.107:8000/api";
   //Register User
   static Future register(Map data) async {
     try {
@@ -30,6 +33,51 @@ class RemoteService {
       }
     } catch (e) {
       Get.snackbar("Error", e.toString(), snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
+  //Fetch About
+  static Future<AboutModel?> fetchAbout() async {
+    try {
+      var response = await client.get(Uri.parse("$baseURL/about"), headers: {'Accept': 'application/json'});
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+        return aboutModelFromJson(jsonString);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      Get.snackbar("Error", 'No Internet Connection');
+    }
+  }
+
+  //Fetch Privacy
+  static Future<PrivacyModel?> fetchPrivacy() async {
+    try {
+      var response = await client.get(Uri.parse("$baseURL/privacy"), headers: {'Accept': 'application/json'});
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+        return privacyModelFromJson(jsonString);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      Get.snackbar("Error", 'No Internet Connection');
+    }
+  }
+
+  //Fetch Condition
+  static Future<ConditionModel?> fetchTermsAndCondition() async {
+    try {
+      var response = await client.get(Uri.parse("$baseURL/condition"), headers: {'Accept': 'application/json'});
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+        return conditionModelFromJson(jsonString);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      Get.snackbar("Error", 'No Internet Connection');
     }
   }
 
