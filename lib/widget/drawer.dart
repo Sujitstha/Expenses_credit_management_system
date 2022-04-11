@@ -2,12 +2,17 @@ import 'package:expensive_app/controller/expense_controller.dart';
 import 'package:expensive_app/controller/income_controller.dart';
 import 'package:expensive_app/controller/loan_controller.dart';
 import 'package:expensive_app/controller/todo_controller.dart';
+import 'package:expensive_app/view/about.dart';
+import 'package:expensive_app/view/condition.dart';
 import 'package:expensive_app/view/expenses_list.dart';
 import 'package:expensive_app/view/income_list.dart';
 import 'package:expensive_app/view/loan.dart';
+import 'package:expensive_app/view/login.dart';
+import 'package:expensive_app/view/privacy.dart';
 import 'package:expensive_app/view/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({
@@ -104,6 +109,7 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             onTap: () {
               Navigator.pop(context);
+              Get.to(() => const AboutView());
             },
             leading: const Icon(Icons.info),
             title: const Text("About us"),
@@ -111,6 +117,7 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             onTap: () {
               Navigator.pop(context);
+              Get.to(() => const PrivacyView());
             },
             leading: const Icon(Icons.security),
             title: const Text("Privacy & Policy"),
@@ -118,14 +125,18 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             onTap: () {
               Navigator.pop(context);
+              Get.to(() => const ConditionView());
             },
             leading: const Icon(Icons.rule),
             title: const Text("Terms & Condition"),
           ),
           const Divider(),
           ListTile(
-            onTap: () {
+            onTap: () async {
+              SharedPreferences preferences = await SharedPreferences.getInstance();
+              preferences.remove("token");
               Navigator.pop(context);
+              Get.off(() => const LoginView());
             },
             leading: const Icon(Icons.exit_to_app),
             title: const Text("Logout"),
