@@ -1,6 +1,9 @@
 import 'package:expensive_app/bindings/controller_bindings.dart';
 import 'package:expensive_app/controller/category_controller.dart';
 import 'package:expensive_app/view/add_transaction.dart';
+import 'package:expensive_app/view/home.dart';
+import 'package:expensive_app/view/letsgo.dart';
+import 'package:expensive_app/view/login.dart';
 import 'package:expensive_app/view/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,7 +25,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       defaultTransition: Transition.fadeIn,
-      home: const SplashView(),
+      routes: {
+      "/": (context) => const SplashView(),
+      "letsgo": (context) => const LetsGo(),
+      "login": (context) => const LoginView(),
+      "home": (context) => const HomeView(),
+      },
       initialBinding: ControllerBinding(),
     );
   }

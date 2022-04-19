@@ -19,7 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class RemoteService {
   static var client = http.Client();
-  static var baseURL = "http://192.168.0.107:8000/api";
+  static var baseURL = "http://192.168.254.100:8000/api";
   //Register User
   static Future register(Map data) async {
     try {

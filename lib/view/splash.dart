@@ -1,4 +1,5 @@
 import 'package:expensive_app/view/home.dart';
+import 'package:expensive_app/view/letsgo.dart';
 import 'package:expensive_app/view/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +22,7 @@ class _SplashViewState extends State<SplashView> {
       });
     } else {
       Future.delayed(const Duration(seconds: 2), () {
-        Get.off(() => const LoginView());
+        Get.off(() => const LetsGo());
       });
     }
   }
